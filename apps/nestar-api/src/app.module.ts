@@ -10,16 +10,17 @@ import { DatabaseModule } from './database/database.module';
 
 @Module({
 	imports: [
-		ConfigModule.forRoot(),
+		ConfigModule.forRoot(), //.env
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-		GraphQLModule.forRoot({
+		GraphQLModule.forRoot({ 
 			driver: ApolloDriver,
 			playground: true,
 			uploads: false,
 			autoSchemaFile: true,
-		}),
-		ComponentsModule,
-		DatabaseModule,
+		}), //REST > GraphQl
+
+		ComponentsModule, // MODULLARni chaqirish
+		DatabaseModule,   // DATABASE TCP ni hosil qilyabdi
 	],
 	controllers: [AppController],
 	providers: [AppService, AppResolver],

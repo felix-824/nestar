@@ -9,3 +9,4 @@ import { MongooseModule } from '@nestjs/mongoose';
   providers: [MemberResolver, MemberService],
 })
 export class MemberModule {} 
+ 

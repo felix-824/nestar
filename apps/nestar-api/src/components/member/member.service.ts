@@ -26,21 +26,27 @@ export class MemberService {
 
    public async login(input: LoginInput): Promise<Member> {
      const { memberNick, memberPassword } = input;
+
      const response = await this.memberModel
        .findOne({ memberNick: memberNick })
        .select('+memberPassword')
        .exec();
 
      if (!response || response.memberStatus === MemberStatus.DELETE) {
-      throw new InternalServerErrorException(Message.NO_MEMBER_NICK);
+      throw new InternalServerErrorException(
+        Message.NO_MEMBER_NICK
+      );
      } else if (response.memberStatus === MemberStatus.BLOCK) {
       throw new InternalServerErrorException(Message.BLOCKED_USER);
      }
 
      //TODO Compare passwords
 
-     const isMatch = await this.authService.comparePasswords(input.memberPassword, response.memberPassword);
-     if (!isMatch) throw new InternalServerErrorException(Message.WRONG_PASSWORD);
+     const isMatch = await this.authService.comparePasswords(input.memberPassword, response.memberPassword!);
+     if (!isMatch) 
+       throw new InternalServerErrorException(
+         Message.WRONG_PASSWORD
+        );
 
     return response;
   }

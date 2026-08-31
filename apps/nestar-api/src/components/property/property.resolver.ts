@@ -66,6 +66,7 @@ export class PropertyResolver {
 		return await this.propertyService.getProperties(memberId, input);
 	}
 
+    // Login qilgan AGENTning o'z propertylarini olish
 	@Roles(MemberType.AGENT)
 	@UseGuards(RolesGuard)
 	@Query((returns) => Properties)

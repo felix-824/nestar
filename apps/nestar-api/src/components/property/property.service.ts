@@ -49,7 +49,11 @@ export class PropertyService {
         if (!targetProperty) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
         if (memberId) {
-            const viewInput = { memberId: memberId, viewRefId: propertyId, viewGroup: ViewGroup.PROPERTY};
+            const viewInput = {
+                 memberId: memberId,
+                 viewRefId: propertyId,
+                 viewGroup: ViewGroup.PROPERTY
+                };
             const newView = await this.viewService.recordView(viewInput);
             if (newView) {
                 await this.propertyStatsEditor({ _id: propertyId, targetKey: 'propertyViews', modifier: 1});
@@ -83,7 +87,7 @@ public async updateProperty(memberId: ObjectId, input: PropertyUpdate): Promise<
 		memberId: memberId,
 		propertyStatus: PropertyStatus.ACTIVE,
 	};
-
+    // Agar property sotilsa sotilgan vaqtni, o'chirilsa o'chirilgan vaqtni belgilaymiz
 	if (propertyStatus === PropertyStatus.SOLD) soldAt = moment().toDate();
 	else if (propertyStatus === PropertyStatus.DELETE) deletedAt = moment().toDate();
 

@@ -9,6 +9,9 @@ import { Comments, Comment } from '../../libs/dto/comment/comment';
 import { CommentUpdate } from '../../libs/dto/comment/comment.update';
 import { shapeIntoMongoObjectId } from '../../libs/config';
 import { WithoutGuard } from '../auth/guards/without.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { MemberType } from '../../libs/enums/member.enum';
+import { Roles } from '../auth/decorators/roles.decorator';
 
 @Resolver()
 export class CommentResolver {
@@ -36,16 +39,26 @@ export class CommentResolver {
 		return await this.commentService.updateComment(memberId, input);
 	}
 
-    // Commentlarni refId bo‘yicha olib keladi va pagination bilan qaytaradi.
-@UseGuards(WithoutGuard)
-@Query((returns) => Comments)
-public async getComments(
-	@Args('input') input: CommentsInquiry,
-	@AuthMember('_id') memberId: ObjectId,
-): Promise<Comments> {
-	console.log('Query: getComments');
-	input.search.commentRefId = shapeIntoMongoObjectId(input.search.commentRefId);
-	const result = await this.commentService.getComments(memberId, input);
-	return result;
-}
+	// Commentlarni refId bo‘yicha olib keladi va pagination bilan qaytaradi.
+	@UseGuards(WithoutGuard)
+	@Query((returns) => Comments)
+	public async getComments(
+		@Args('input') input: CommentsInquiry,
+		@AuthMember('_id') memberId: ObjectId,
+	): Promise<Comments> {
+		console.log('Query: getComments');
+		input.search.commentRefId = shapeIntoMongoObjectId(input.search.commentRefId);
+		const result = await this.commentService.getComments(memberId, input);
+		return result;
+	}
+
+	// Admin commentni ID orqali butunlay o‘chiradi.
+	@Roles(MemberType.ADMIN)
+	@UseGuards(RolesGuard)
+	@Mutation((returns) => Comment)
+	public async removeCommentByAdmin(@Args('commentId') input: string): Promise<Comment> {
+		console.log('Mutation: removeCommentByAdmin');
+		const commentId = shapeIntoMongoObjectId(input);
+		return await this.commentService.removeCommentByAdmin(commentId);
+	}
 }

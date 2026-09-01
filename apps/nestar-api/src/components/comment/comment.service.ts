@@ -22,7 +22,8 @@ export class CommentService {
 	) {}
 
 
-    // Yangi comment yaratadi va comment qaysi turga tegishli bo‘lsa, o‘sha joyning comment sonini +1 qiladi.
+    // Yangi comment yaratadi va comment qaysi turga tegishli bo‘lsa,
+	//  o‘sha joyning comment sonini +1 qiladi.
 public async createComment(
 	memberId: ObjectId,
 	input: CommentInput,

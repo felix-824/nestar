@@ -104,6 +104,7 @@ export class BoardArticleService {
 	}
 
 // Memberga tegishli ACTIVE article'ni yangilaydi,
+
 //  DELETE bo‘lsa memberArticles sonini kamaytiradi.
     public async updateBoardArticle(
         memberId: ObjectId,input: BoardArticleUpdate,): Promise<BoardArticle> {
@@ -139,7 +140,8 @@ export class BoardArticleService {
 	return result;
 }
 
-// ACTIVE board article'larni filter, search, sort va pagination bilan olib keladi.
+// ACTIVE board article'larni filter, search, sort va pagination bilan
+//  olib keladi.
 public async getBoardArticles(
 	memberId: ObjectId,
 	input: BoardArticlesInquiry,

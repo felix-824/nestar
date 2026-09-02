@@ -80,6 +80,19 @@ export class MemberResolver {
 		console.log('Query: getAgents');
 		return await this.memberService.getAgents(memberId, input);
 	}
+   
+	//Login qilgan member 
+	// boshqa bir memberga like bosishi.
+	@UseGuards(AuthGuard)
+	@Mutation(() => Member)
+	public async likeTargetMember(
+		@Args('memberId') input: string,
+		@AuthMember('_id') memberId: ObjectId,
+	): Promise<Member> {
+		console.log('Mutation: likeTargetMember');
+		const likeRefId = shapeIntoMongoObjectId(input)
+		return await this.memberService.likeTargetMember(memberId, likeRefId);
+	}
 
 	/** ADMIN */
 
@@ -139,7 +152,7 @@ export class MemberResolver {
 	): Promise<string[]> {
 		console.log('Mutation: imagesUploader');
 
-		 const uploadedImages: string[] = [];
+		const uploadedImages: string[] = [];
 
 		const promisedList = files.map(async (img: Promise<FileUpload>, index: number): Promise<Promise<void>> => {
 			try {
@@ -160,8 +173,7 @@ export class MemberResolver {
 				});
 				if (!result) throw new Error(Message.UPLOAD_FAILED);
 
-				uploadedImages [index] = url;
-	
+				uploadedImages[index] = url;
 			} catch (err) {
 				console.log('Error, file missing!');
 			}

@@ -117,6 +117,8 @@ public async likeTargetBoardArticle(memberId: ObjectId, likeRefId: ObjectId): Pr
 			}
 
 			// meLiked
+		 const likeInput = { memberId: memberId, likeRefId: articleId, likeGroup: LikeGroup.ARTICLE };
+		 targetBoardArticle.meLiked = await this.likeService.checkLikeExistence(likeInput)	
 		}
 
 		targetBoardArticle.memberData = await this.memberService.getMember(

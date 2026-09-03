@@ -68,6 +68,21 @@ export class BoardArticleResolver {
 		return await this.boardArticleService.getBoardArticles(memberId, input);
 	}
 
+	// Login memberning target article'ga
+	//  LIKE/UNLIKE bosish requestini servicega yuboradi
+	@UseGuards(AuthGuard)
+	@Mutation(() => BoardArticle)
+	public async likeTargetBoardArticle(
+		@Args('articleId') input: string,
+		@AuthMember('_id') memberId: ObjectId,
+	): Promise<BoardArticle> {
+		console.log('Mutation: likeTargetBoardArticle');
+
+		const likeRefId = shapeIntoMongoObjectId(input);
+
+		return await this.boardArticleService.likeTargetBoardArticle(memberId, likeRefId);
+	}
+
 	/** ADMIN **/
 
 	// Admin barcha board article'larni filter va pagination bilan olib keladi.

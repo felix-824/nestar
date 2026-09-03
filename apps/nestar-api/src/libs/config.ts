@@ -40,3 +40,25 @@ export const lookupMember = {
 		as: 'memberData',
 	},
 };
+
+// Following member ma'lumotlarini members collectiondan olib
+//  followingData'ga qo'shadi
+export const lookupFollowingData = {
+	$lookup: {
+		from: 'members',
+		localField: 'followingId',
+		foreignField: '_id',
+		as: 'followingData',
+	},
+};
+
+// Follower member ma'lumotlarini members collectiondan olib 
+// followerData'ga qo'shadi
+export const lookupFollowerData = {
+	$lookup: {
+		from: 'members',
+		localField: 'followerId',
+		foreignField: '_id',
+		as: 'followerData',
+	},
+};

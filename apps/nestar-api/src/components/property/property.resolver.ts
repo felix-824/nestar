@@ -4,6 +4,7 @@ import { Properties, Property } from '../../libs/dto/property/property';
 import {
 	AgentPropertiesInquiry,
 	AllPropertiesInquiry,
+	OrdinaryInquiry,
 	PropertiesInquiry,
 	PropertyInput,
 } from '../../libs/dto/property/property.input';
@@ -67,6 +68,17 @@ export class PropertyResolver {
 		return await this.propertyService.getProperties(memberId, input);
 	}
 
+	// Login qilgan memberning favorite qilgan propertylarini pagination bilan olib keladi.
+	@UseGuards(AuthGuard)
+	@Query((returns) => Properties)
+	public async getFavorites(
+		@Args('input') input: OrdinaryInquiry,
+		@AuthMember('_id') memberId: ObjectId,
+	): Promise<Properties> {
+		console.log('Query: getFavorites');
+		return await this.propertyService.getProperties(memberId, input);
+	}
+
 	// Login qilgan AGENTning o'z propertylarini olish
 	@Roles(MemberType.AGENT)
 	@UseGuards(RolesGuard)
@@ -78,7 +90,6 @@ export class PropertyResolver {
 		console.log('Query: getAgentProperties');
 		return await this.propertyService.getAgentProperties(memberId, input);
 	}
-
 
 	// Login memberning target propertyga
 	//  LIKE/UNLIKE bosish requestini servicega yuboradi

@@ -138,3 +138,14 @@ export const lookupFollowerData = {
 		as: 'followerData',
 	},
 };
+
+// Favorite property egasining (member)
+// ma'lumotlarini members collectiondan olib keladi.
+export const lookupFavorite = {
+	$lookup: {
+		from: 'members',
+		localField: 'favoriteProperty.memberId',
+		foreignField: '_id',
+		as: 'favoriteProperty.memberData',
+	},
+};

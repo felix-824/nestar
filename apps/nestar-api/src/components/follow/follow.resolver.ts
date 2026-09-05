@@ -13,7 +13,8 @@ import { FollowInquiry } from '../../libs/dto/follow/follow.input';
 export class FollowResolver {
 	constructor(private readonly followService: FollowService) {}
 
-	// Login memberning target memberga FOLLOW qilish requestini servicega yuboradi
+	// Login memberning target memberga FOLLOW qilish requestini
+	//  servicega yuboradi
 	@UseGuards(AuthGuard)
 	@Mutation((returns) => Follower)
 	public async subscribe(
@@ -25,7 +26,8 @@ export class FollowResolver {
 		return await this.followService.subscribe(memberId, followingId);
 	}
 
-    // Login memberning target memberni UNFOLLOW qilish requestini servicega yuboradi
+    // Login memberning target memberni UNFOLLOW qilish
+	//  requestini servicega yuboradi
 @UseGuards(AuthGuard)
 @Mutation((returns) => Follower)
 public async unsubscribe(
@@ -39,7 +41,8 @@ public async unsubscribe(
 	return await this.followService.unsubscribe(memberId, followingId);
 }
 
-// Target member kimlarni FOLLOW qilayotganini olish uchun servicega request yuboradi
+// Target member kimlarni FOLLOW qilayotganini 
+// olish uchun servicega request yuboradi
 @UseGuards(WithoutGuard)
 @Query((returns) => Followings)
 public async getMemberFollowings(

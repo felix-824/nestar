@@ -49,7 +49,8 @@ export class BoardArticleService {
 		}
 	}
 
-    // Login memberning target article'ga LIKE/UNLIKE bosishini boshqaradi
+    // Login memberning target article'ga 
+	// LIKE/UNLIKE bosishini boshqaradi
 public async likeTargetBoardArticle(memberId: ObjectId, likeRefId: ObjectId): Promise<BoardArticle> {
 	const target = await this.boardArticleModel
 		.findOne({ _id: likeRefId, articleStatus: BoardArticleStatus.ACTIVE })

@@ -57,7 +57,8 @@ export class BoardArticleResolver {
 		return await this.boardArticleService.updateBoardArticle(memberId, input);
 	}
 
-	// Board article'lar ro‘yxatini filter va pagination orqali olib keladi.
+	// Board articlelar ro‘yxatini filter va pagination 
+	// orqali olib keladi.
 	@UseGuards(WithoutGuard)
 	@Query((returns) => BoardArticles)
 	public async getBoardArticles(
@@ -85,7 +86,8 @@ export class BoardArticleResolver {
 
 	/** ADMIN **/
 
-	// Admin barcha board article'larni filter va pagination bilan olib keladi.
+	// Admin barcha board article'larni filter va 
+	// pagination bilan olib keladi.
 	@Roles(MemberType.ADMIN)
 	@UseGuards(RolesGuard)
 	@Query((returns) => BoardArticles)

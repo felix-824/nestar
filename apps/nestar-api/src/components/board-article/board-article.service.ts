@@ -10,7 +10,7 @@ import { BoardArticleStatus } from '../../libs/enums/board-article.enum';
 import { ViewGroup } from '../../libs/enums/view.enum';
 import { StatisticModifier, T } from '../../libs/types/common';
 import { BoardArticleUpdate } from '../../libs/dto/board-article/board-article.update';
-import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
+import { lookupAuthMemberLiked, lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
 import { LikeService } from '../like/like.service';
 import { LikeGroup } from '../../libs/enums/like.enum';
 import { LikeInput } from '../../libs/dto/like/like.input';
@@ -202,25 +202,14 @@ public async getBoardArticles(
 			{
 				$facet: {
 					list: [
-						{
-							$skip: (input.page - 1) * input.limit,
-						},
-						{
-							$limit: input.limit,
-						},
-
+						{$skip: (input.page - 1) * input.limit},
+						{$limit: input.limit},
+                        lookupAuthMemberLiked(memberId),
 						// meLiked
 						lookupMember,
-
-						{
-							$unwind: '$memberData',
-						},
-					],
-
-					metaCounter: [
-						{
-							$count: 'total',
-						},
+						{$unwind: '$memberData'},
+				    	],
+					     metaCounter: [{$count: 'total'},
 					],
 				},
 			},

@@ -4,7 +4,7 @@ import { MemberService } from '../member/member.service';
 import type { Model, ObjectId } from 'mongoose';
 import { Follower, Followers, Following, Followings } from '../../libs/dto/follow/follow';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { lookupFollowerData, lookupFollowingData } from '../../libs/config';
+import { lookupAuthMemberLiked, lookupFollowerData, lookupFollowingData } from '../../libs/config';
 import { FollowInquiry } from '../../libs/dto/follow/follow.input';
 import { T } from '../../libs/types/common';
 
@@ -111,12 +111,10 @@ public async getMemberFollowings(memberId: ObjectId, input: FollowInquiry): Prom
 				$facet: {
 					list: [
 						{ $skip: (page - 1) * limit },
-						{ $limit: limit },
-
+						{ $limit: limit },                  
 						// meLiked
-
+                       lookupAuthMemberLiked(memberId, "$followingId"),
 						// meFollowed
-
 						lookupFollowingData,
 
 						{ $unwind: '$followingData' },
@@ -155,7 +153,7 @@ public async getMemberFollowers(memberId: ObjectId, input: FollowInquiry): Promi
 					list: [
 						{ $skip: (page - 1) * limit },
 						{ $limit: limit },
-						// meLiked
+						lookupAuthMemberLiked(memberId, "$followerId"),
 						// meFollowed
 						lookupFollowerData,
 						{ $unwind: '$followerData' },

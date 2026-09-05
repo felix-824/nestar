@@ -79,6 +79,18 @@ export class PropertyResolver {
 		return await this.propertyService.getProperties(memberId, input);
 	}
 
+	// Login qilgan member oldin ko'rgan
+	//  propertylarini olib keladi.
+	@UseGuards(AuthGuard)
+	@Query((returns) => Properties)
+	public async getVisited(
+		@Args('input') input: OrdinaryInquiry,
+		@AuthMember('_id') memberId: ObjectId,
+	): Promise<Properties> {
+		console.log('Query: getVisited');
+		return await this.propertyService.getVisited(memberId, input);
+	}
+
 	// Login qilgan AGENTning o'z propertylarini olish
 	@Roles(MemberType.AGENT)
 	@UseGuards(RolesGuard)

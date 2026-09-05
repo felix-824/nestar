@@ -149,3 +149,14 @@ export const lookupFavorite = {
 		as: 'favoriteProperty.memberData',
 	},
 };
+
+// Visited property egasining (member)
+//  ma'lumotlarini members collectiondan olib keladi.
+export const lookupVisit = {
+	$lookup: {
+		from: 'members',
+		localField: 'visitedProperty.memberId',
+		foreignField: '_id',
+		as: 'visitedProperty.memberData',
+	},
+};

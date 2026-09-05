@@ -4,7 +4,7 @@ import { MemberService } from '../member/member.service';
 import type { Model, ObjectId } from 'mongoose';
 import { Follower, Followers, Following, Followings } from '../../libs/dto/follow/follow';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { lookupAuthMemberLiked, lookupFollowerData, lookupFollowingData } from '../../libs/config';
+import { lookupAuthMemberFollowed, lookupAuthMemberLiked, lookupFollowerData, lookupFollowingData } from '../../libs/config';
 import { FollowInquiry } from '../../libs/dto/follow/follow.input';
 import { T } from '../../libs/types/common';
 
@@ -114,7 +114,9 @@ public async getMemberFollowings(memberId: ObjectId, input: FollowInquiry): Prom
 						{ $limit: limit },                  
 						// meLiked
                        lookupAuthMemberLiked(memberId, "$followingId"),
-						// meFollowed
+					   lookupAuthMemberFollowed({
+						followerId: memberId, followingId: "$followingId" 
+					}),
 						lookupFollowingData,
 
 						{ $unwind: '$followingData' },
@@ -154,7 +156,9 @@ public async getMemberFollowers(memberId: ObjectId, input: FollowInquiry): Promi
 						{ $skip: (page - 1) * limit },
 						{ $limit: limit },
 						lookupAuthMemberLiked(memberId, "$followerId"),
-						// meFollowed
+						 lookupAuthMemberFollowed({
+						followerId: memberId, followingId: "$followerId" 
+				    	}),
 						lookupFollowerData,
 						{ $unwind: '$followerData' },
 					],

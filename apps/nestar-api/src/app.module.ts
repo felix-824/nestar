@@ -8,6 +8,7 @@ import { AppResolver } from './app.resolver';
 import { ComponentsModule } from './components/components.module';
 import { DatabaseModule } from './database/database.module';
 import { T } from './libs/types/common';
+import { SocketModule } from './socket/socket.module';
 
 @Module({
 	imports: [
@@ -30,7 +31,7 @@ import { T } from './libs/types/common';
 		}), //REST > GraphQl
 
 		ComponentsModule, // MODULLARni chaqirish
-		DatabaseModule,   // DATABASE TCP ni hosil qilyabdi
+		DatabaseModule, SocketModule,   // DATABASE TCP ni hosil qilyabdi
 	],
 	controllers: [AppController],
 	providers: [AppService, AppResolver],

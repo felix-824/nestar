@@ -47,7 +47,11 @@ export const lookupAuthMemberLiked = (memberId: T, targetRefId: string = '$_id')
 				{
 					$match: {
 						$expr: {
-							$and: [{ $eq: ['$likeRefId', '$$localLikeRefId'] }, { $eq: ['$memberId', '$$localMemberId'] }],
+							$and: 
+							//likes collectiondagi likeRefId hozirgi agentning IDsi bilan tengmi?
+							[{ $eq: ['$likeRefId', '$$localLikeRefId'] },
+							//likes ichidagi memberId login qilgan Farruxning IDsi bilan tengmi?
+						  { $eq: ['$memberId', '$$localMemberId'] }],  
 						},
 					},
 				},
@@ -58,7 +62,7 @@ export const lookupAuthMemberLiked = (memberId: T, targetRefId: string = '$_id')
 						likeRefId: 1,
 						myFavorite: '$$localMyFavorite',
 					},
-				},
+				}, 
 			],
 			as: 'meLiked',
 		},
@@ -141,22 +145,4 @@ export const lookupFollowerData = {
 
 // Favorite property egasining (member)
 // ma'lumotlarini members collectiondan olib keladi.
-export const lookupFavorite = {
-	$lookup: {
-		from: 'members',
-		localField: 'favoriteProperty.memberId',
-		foreignField: '_id',
-		as: 'favoriteProperty.memberData',
-	},
-};
-
-// Visited property egasining (member)
-//  ma'lumotlarini members collectiondan olib keladi.
-export const lookupVisit = {
-	$lookup: {
-		from: 'members',
-		localField: 'visitedProperty.memberId',
-		foreignField: '_id',
-		as: 'visitedProperty.memberData',
-	},
-};
+ 

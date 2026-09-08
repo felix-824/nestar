@@ -53,7 +53,8 @@ public async checkLikeExistence(input: LikeInput): Promise<MeLiked[]> {
     return result ? [{ memberId: memberId, likeRefId: likeRefId, myFavorite: true}] : [];
 }
 
-// Member like bosgan propertylarni likes orqali topib, property ma'lumotlari bilan birlashtiradi.
+// Member like bosgan propertylarni likes orqali topib,
+//  property ma'lumotlari bilan birlashtiradi.
 public async getFavoriteProperties(memberId: ObjectId, input: OrdinaryInquiry): Promise<Properties> {
 	const { page, limit } = input;
 	const match: T = { likeGroup: LikeGroup.PROPERTY, memberId: memberId };
